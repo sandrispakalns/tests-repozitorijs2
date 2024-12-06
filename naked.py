@@ -1,3 +1,4 @@
+# Tiek importētas nepieciešamās bibliotēkas
 import requests
 import json
 import datetime
@@ -36,12 +37,12 @@ if r.status_code == 200:
 	ast_safe = []
 	ast_hazardous = []
 
-    # Pārbauda vai konkrētajā datumā ir kāds asteroīds
+    	# Pārbauda vai konkrētajā datumā ir kāds asteroīds
 	if 'element_count' in json_data:
 		ast_count = int(json_data['element_count'])
 		print("Asteroid count today: " + str(ast_count))
 
-        # Ja ir kāds asteroīds, tad tiek iegūts asteroīda vārds, NASA JPL URL, diametrs kilometros, bīstamība
+        	# Ja ir kāds asteroīds, tad tiek iegūts asteroīda vārds, NASA JPL URL, diametrs kilometros, bīstamība
 		if ast_count > 0:
 			for val in json_data['near_earth_objects'][request_date]:
 				if 'name' and 'nasa_jpl_url' and 'estimated_diameter' and 'is_potentially_hazardous_asteroid' and 'close_approach_data' in val:
@@ -60,7 +61,7 @@ if r.status_code == 200:
 
 					tmp_ast_hazardous = val['is_potentially_hazardous_asteroid']
 
-                    # Tiek iegūts, kad asteroīds būs tuvu Zemei, kāds ir asteroīda ātrums, distance
+                    			# Tiek iegūts, kad asteroīds būs tuvu Zemei, kāds ir asteroīda ātrums, distance
 					if len(val['close_approach_data']) > 0:
 						if 'epoch_date_close_approach' and 'relative_velocity' and 'miss_distance' in val['close_approach_data'][0]:
 							tmp_ast_close_appr_ts = int(val['close_approach_data'][0]['epoch_date_close_approach']/1000)
@@ -88,7 +89,7 @@ if r.status_code == 200:
 						tmp_ast_speed = -1
 						tmp_ast_miss_dist = -1
 
-                    # Izvada detalizētu informāciju par asteroīdiem
+                    			# Izvada detalizētu informāciju par asteroīdiem
 					print("------------------------------------------------------- >>")
 					print("Asteroid name: " + str(tmp_ast_name) + " | INFO: " + str(tmp_ast_nasa_jpl_url) + " | Diameter: " + str(tmp_ast_diam_min) + " - " + str(tmp_ast_diam_max) + " km | Hazardous: " + str(tmp_ast_hazardous))
 					print("Close approach TS: " + str(tmp_ast_close_appr_ts) + " | Date/time UTC TZ: " + str(tmp_ast_close_appr_dt_utc) + " | Local TZ: " + str(tmp_ast_close_appr_dt))
@@ -103,10 +104,10 @@ if r.status_code == 200:
 		else:
 			print("No asteroids are going to hit earth today")
 
-    # Izvada skaitu ar bīstamajiem un drošajiem asteroīdiem
+    	# Izvada skaitu ar bīstamajiem un drošajiem asteroīdiem
 	print("Hazardous asteorids: " + str(len(ast_hazardous)) + " | Safe asteroids: " + str(len(ast_safe)))
 
-    # Sakārto un izvada informāciju par bīstamajiem asteroīdiem
+    	# Sakārto un izvada informāciju par bīstamajiem asteroīdiem
 	if len(ast_hazardous) > 0:
 
 		ast_hazardous.sort(key = lambda x: x[4], reverse=False)
